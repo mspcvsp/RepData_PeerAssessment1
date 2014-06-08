@@ -119,7 +119,31 @@ ggsave("./figure/dailyActivity.png")
 
 ## Imputing missing values
 
+```r
+print(sprintf("Total number of missing values in the dataset: %d",
+              nrow(activityData) - sum(complete.cases(activityData))))
+```
 
+```
+## [1] "Total number of missing values in the dataset: 2304"
+```
+
+```r
+dailyActivty$interval <- as.factor(dailyActivty$interval)
+
+for (n in seq(1,nrow(dailyActivty))) {
+    intervalIndex <-
+        which(activityData$interval == dailyActivty[n,"interval"])
+    
+    naIndex <- 
+        intervalIndex[is.na(activityData[intervalIndex,steps])]
+    
+    avgIntegerNumberOfSteps <- 
+        as.integer(round(dailyActivty[n,"averagenumberofsteps"]))
+    
+    activityData[naIndex,steps:=avgIntegerNumberOfSteps]
+}
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
 [1]: http://tex.stackexchange.com/questions/152488/suppress-library-comments-from-ouput-with-knitr
@@ -132,3 +156,6 @@ ggsave("./figure/dailyActivity.png")
 [8]: http://stackoverflow.com/questions/14733732/cant-change-fonts-in-ggplot-geom-text
 [9]: http://stackoverflow.com/questions/3606697/how-to-set-limits-for-axes-in-ggplot2-r-plots
 [10]: http://www.r-bloggers.com/how-to-calculate-with-dates-and-hours-in-r/
+[11]: http://jeromyanglim.blogspot.com/2012/05/getting-started-with-r-markdown-knitr.html
+[12]: http://www.londonr.org/LondonR-20090331/data.table.LondonR.pdf
+[13]: http://datatable.r-forge.r-project.org/

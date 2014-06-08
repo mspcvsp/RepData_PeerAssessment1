@@ -292,6 +292,29 @@ ggplot(dailyActivty, aes(x=interval,y=averagenumberofsteps)) +
 
 <h2>Imputing missing values</h2>
 
+<pre><code class="r">print(sprintf(&quot;Total number of missing values in the dataset: %d&quot;,
+              nrow(activityData) - sum(complete.cases(activityData))))
+</code></pre>
+
+<pre><code>## [1] &quot;Total number of missing values in the dataset: 2304&quot;
+</code></pre>
+
+<pre><code class="r">dailyActivty$interval &lt;- as.factor(dailyActivty$interval)
+
+for (n in seq(1,nrow(dailyActivty))) {
+    intervalIndex &lt;-
+        which(activityData$interval == dailyActivty[n,&quot;interval&quot;])
+
+    naIndex &lt;- 
+        intervalIndex[is.na(activityData[intervalIndex,steps])]
+
+    avgIntegerNumberOfSteps &lt;- 
+        as.integer(round(dailyActivty[n,&quot;averagenumberofsteps&quot;]))
+
+    activityData[naIndex,steps:=avgIntegerNumberOfSteps]
+}
+</code></pre>
+
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
 
 </body>
