@@ -235,11 +235,17 @@ activityData &lt;- data.table(activityData)
 
 <h2>What is mean total number of steps taken per day?</h2>
 
-<pre><code class="r">totalNumberStepsPerDay &lt;- 
-    as.data.frame(activityData[complete.cases(activityData),
-                               sum(steps),by=date])
+<pre><code class="r">computeTotalNumberStepsPerDay &lt;- function(activityData) {
+    totalNumberStepsPerDay &lt;- 
+        as.data.frame(activityData[complete.cases(activityData),
+                                   sum(steps),by=date])
 
-colnames(totalNumberStepsPerDay) &lt;- c(&quot;date&quot;,&quot;totalnumberofsteps&quot;)
+    colnames(totalNumberStepsPerDay) &lt;- c(&quot;date&quot;,&quot;totalnumberofsteps&quot;)
+
+    return(totalNumberStepsPerDay)
+}
+
+totalNumberStepsPerDay &lt;- computeTotalNumberStepsPerDay(activityData)
 
 ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
     geom_histogram(binwidth=1000,fill=&quot;white&quot;,colour=&quot;black&quot;) + 

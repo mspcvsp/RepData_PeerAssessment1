@@ -58,11 +58,17 @@ activityData <- data.table(activityData)
 ## What is mean total number of steps taken per day?
 
 ```r
-totalNumberStepsPerDay <- 
-    as.data.frame(activityData[complete.cases(activityData),
-                               sum(steps),by=date])
+computeTotalNumberStepsPerDay <- function(activityData) {
+    totalNumberStepsPerDay <- 
+        as.data.frame(activityData[complete.cases(activityData),
+                                   sum(steps),by=date])
+    
+    colnames(totalNumberStepsPerDay) <- c("date","totalnumberofsteps")
+    
+    return(totalNumberStepsPerDay)
+}
 
-colnames(totalNumberStepsPerDay) <- c("date","totalnumberofsteps")
+totalNumberStepsPerDay <- computeTotalNumberStepsPerDay(activityData)
 
 ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
     geom_histogram(binwidth=1000,fill="white",colour="black") + 
