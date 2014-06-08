@@ -1,13 +1,60 @@
 # Reproducible Research: Peer Assessment 1
 
+[Link 1][1]
+[Link 2][2]
+[Link 3][3]
+[Link 4][4]
+[Link 5][5]
+
+```{r setupEnvironment}
+
+# Verify required packages are installed
+required.packages <- c("lubridate",
+                       "data.table",
+                       "RColorBrewer",
+                       "ggplot2")
+
+new.packages <- required.packages[!(required.packages %in% 
+                                    installed.packages()[,"Package"])]
+
+if(length(new.packages)) {
+  install.packages(new.packages)
+} 
+
+# Load required packages
+library(data.table)
+library(lubridate)
+library(ggplot2)
+```
 
 ## Loading and preprocessing the data
+```{r loadAndCleanData}
+if (!file.exists("./Data")) {
+    dir.create("./Data")    
+    unzip("./activity.zip", exdir="Data")
+}
 
+activityData <- read.csv("./Data/activity.csv",
+                         header=TRUE,
+                         stringsAsFactors=FALSE)
 
+activityData$date <- ymd(activityData$date)
+
+activityData <- data.table(activityData)
+```
 
 ## What is mean total number of steps taken per day?
+```{r fig.height=4}
+totalNumberStepsPerDay <- 
+    as.data.frame(activityData[complete.cases(activityData),
+                               sum(steps),by=date])
 
+colnames(totalNumberStepsPerDay) <- c("date","totalnumberofsteps")
 
+ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
+    geom_histogram(binwidth=1000,fill="white",colour="black") + 
+    xlab("Total Number of Steps / Day")
+```
 
 ## What is the average daily activity pattern?
 
@@ -18,3 +65,8 @@
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+[1]: http://stackoverflow.com/questions/14187048/r-language-clean-variables-and-close-connections
+[2]: http://stackoverflow.com/questions/9341635/how-can-i-check-for-installed-r-packages-before-running-install-packages
+[3]: http://www.r-bloggers.com/read-compressed-zip-files-in-r/
+[4]: http://stackoverflow.com/questions/18799901/data-frame-group-by-column
+[5]: http://stackoverflow.com/questions/4862178/remove-rows-with-nas-in-data-frame
