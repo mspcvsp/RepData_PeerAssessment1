@@ -72,6 +72,8 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
 ![plot of chunk totalNumberOfSteps](figure/totalNumberOfSteps.png) 
 
 ```r
+ggsave("./figure/totalNumberOfSteps.png")
+
 cat(sprintf("Mean total number of steps taken per day: %.1f", 
             mean(totalNumberStepsPerDay$totalnumberofsteps)),
     sprintf("Median total number of steps taken per day: %.1f", 
@@ -112,11 +114,7 @@ ggplot(dailyActivty, aes(x=interval,y=averagenumberofsteps)) +
 ![plot of chunk dailyActivity](figure/dailyActivity.png) 
 
 ```r
-print(sprintf())
-```
-
-```
-## Error: argument "fmt" is missing, with no default
+ggsave("./figure/dailyActivity.png")
 ```
 
 ## Imputing missing values
