@@ -55,7 +55,7 @@ activityData <- data.table(activityData)
 ```
 
 ## What is mean total number of steps taken per day?
-```{r totalNumberOfSteps, fig.height=4, message=FALSE}
+```{r totalNumberOfSteps, fig.height=4, fig.width=7, message=FALSE}
 computeTotalNumberStepsPerDay <- function(activityData) {
     totalNumberStepsPerDay <- 
         as.data.frame(activityData[complete.cases(activityData),
@@ -107,7 +107,7 @@ ggsave("./figure/dailyActivity.png")
 ```
 
 ## Imputing missing values
-```{r imputeMissingValues}
+```{r imputeMissingValues, fig.height=4, message=FALSE}
 print(sprintf("Total number of missing values in the dataset: %d",
               nrow(activityData) - sum(complete.cases(activityData))))
 
@@ -125,6 +125,22 @@ for (n in seq(1,nrow(dailyActivty))) {
     
     activityData[naIndex,steps:=avgIntegerNumberOfSteps]
 }
+
+totalNumberStepsPerDay <- computeTotalNumberStepsPerDay(activityData)
+
+ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
+    geom_histogram(binwidth=1000,fill="white",colour="black") + 
+    xlab("Total Number of Steps / Day") + 
+    ggtitle("NA's set to mean value")
+
+ggsave("./figure/imputeMissingValues.png")
+
+cat(sprintf("Mean total number of steps taken per day: %.1f", 
+            mean(totalNumberStepsPerDay$totalnumberofsteps)),
+    sprintf("Median total number of steps taken per day: %.1f", 
+            median(totalNumberStepsPerDay$totalnumberofsteps)),
+    fill=TRUE,
+    sep="\n")
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?

@@ -149,6 +149,32 @@ for (n in seq(1,nrow(dailyActivty))) {
     
     activityData[naIndex,steps:=avgIntegerNumberOfSteps]
 }
+
+totalNumberStepsPerDay <- computeTotalNumberStepsPerDay(activityData)
+
+ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
+    geom_histogram(binwidth=1000,fill="white",colour="black") + 
+    xlab("Total Number of Steps / Day") + 
+    ggtitle("NA's set to mean value")
+```
+
+![plot of chunk imputeMissingValues](figure/imputeMissingValues.png) 
+
+```r
+ggsave("./figure/imputeMissingValues.png")
+
+cat(sprintf("Mean total number of steps taken per day: %.1f", 
+            mean(totalNumberStepsPerDay$totalnumberofsteps)),
+    sprintf("Median total number of steps taken per day: %.1f", 
+            median(totalNumberStepsPerDay$totalnumberofsteps)),
+    fill=TRUE,
+    sep="\n")
+```
+
+```
+## Mean total number of steps taken per day: 10765.6
+## 
+## Median total number of steps taken per day: 10762.0
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
