@@ -11,7 +11,6 @@
 # Verify required packages are installed
 required.packages <- c("lubridate",
                        "data.table",
-                       "RColorBrewer",
                        "ggplot2")
 
 new.packages <- required.packages[!(required.packages %in% 
@@ -120,19 +119,33 @@ ggplot(dailyActivty, aes(x=interval,y=averagenumberofsteps)) +
 ![plot of chunk dailyActivity](figure/dailyActivity.png) 
 
 ```r
+maxInterval <- 
+    as.integer(dailyActivty[which(dailyActivty$averagenumberofsteps == 
+                                  max(dailyActivty$averagenumberofsteps)),
+                            "interval"])
+
+maxIntervalTime <- as.POSIXlt(paste(activityData[1,date],"00:00:00"))
+maxIntervalTime$min <- maxIntervalTime$min + maxInterval*5
+maxIntervalTime <- strftime(maxIntervalTime,"%H:%M (24 hour)")
+
 ggsave("./figure/dailyActivity.png")
 ```
+
+On average across all the days in the dataset, the five minute interval that 
+contains the maximum number steps is #104 which corresponds to   
+08:40 (24 hour).
 
 ## Imputing missing values
 
 ```r
-print(sprintf("Total number of missing values in the dataset: %d",
-              nrow(activityData) - sum(complete.cases(activityData))))
+totalNumberMissingValues <- nrow(activityData) - 
+                            sum(complete.cases(activityData))
 ```
 
-```
-## [1] "Total number of missing values in the dataset: 2304"
-```
+The total number of missing values is 2304, which is 
+computed as by subtracting the number of rows where all of the variables (i.e. 
+columns) are specified from the total number of rows.
+
 
 ```r
 dailyActivty$interval <- as.factor(dailyActivty$interval)
@@ -191,3 +204,4 @@ cat(sprintf("Mean total number of steps taken per day: %.1f",
 [11]: http://jeromyanglim.blogspot.com/2012/05/getting-started-with-r-markdown-knitr.html
 [12]: http://www.londonr.org/LondonR-20090331/data.table.LondonR.pdf
 [13]: http://datatable.r-forge.r-project.org/
+[14]: http://stackoverflow.com/questions/8857287/how-to-add-subtract-time-from-a-posixlt-time-while-keeping-its-class-in-r
