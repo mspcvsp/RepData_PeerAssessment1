@@ -11,7 +11,8 @@
 # Verify required packages are installed
 required.packages <- c("lubridate",
                        "data.table",
-                       "ggplot2")
+                       "ggplot2",
+                       "xtable")
 
 new.packages <- required.packages[!(required.packages %in% 
                                     installed.packages()[,"Package"])]
@@ -21,9 +22,10 @@ if(length(new.packages)) {
 } 
 
 # Load required packages
-library(lubridate)
 library(data.table)
 library(ggplot2)
+library(lubridate)
+library(xtable)
 ```
 
 ## Loading and preprocessing the data
@@ -54,6 +56,12 @@ activityData$interval <- as.factor(activityData$interval)
 levels(activityData$interval) <- seq(1,length(originalIntervals))
 
 activityData <- data.table(activityData)
+```
+
+
+```{r originalIntervals, results='asis'}
+print(xtable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals))))),
+             type="html", include.rownames=FALSE)
 ```
 
 ## What is mean total number of steps taken per day?
@@ -219,3 +227,6 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 [16]: http://stackoverflow.com/questions/8857287/how-to-add-subtract-time-from-a-posixlt-time-while-keeping-its-class-in-r
 [17]: http://stackoverflow.com/questions/11308754/add-multiple-columns-to-r-data-table-in-one-function-call
 [18]: http://rprogramming.net/aggregate-data-in-r-using-data-table/
+[19]: http://blog.revolutionanalytics.com/2010/02/making-publicationready-tables-with-xtable.html
+[20]: http://stackoverflow.com/questions/10758961/how-to-convert-a-table-to-a-data-frame-in-r
+[21]: http://stackoverflow.com/questions/5430338/remove-data-frame-row-names-when-using-xtable

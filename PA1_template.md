@@ -11,7 +11,8 @@
 # Verify required packages are installed
 required.packages <- c("lubridate",
                        "data.table",
-                       "ggplot2")
+                       "ggplot2",
+                       "xtable")
 
 new.packages <- required.packages[!(required.packages %in% 
                                     installed.packages()[,"Package"])]
@@ -21,9 +22,10 @@ if(length(new.packages)) {
 } 
 
 # Load required packages
-library(lubridate)
 library(data.table)
 library(ggplot2)
+library(lubridate)
+library(xtable)
 ```
 
 ## Loading and preprocessing the data
@@ -56,6 +58,20 @@ levels(activityData$interval) <- seq(1,length(originalIntervals))
 
 activityData <- data.table(activityData)
 ```
+
+
+
+```r
+print(xtable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals))))),
+             type="html", include.rownames=FALSE)
+```
+
+<!-- html table generated in R 3.1.0 by xtable 1.7-3 package -->
+<!-- Mon Jun 09 22:38:48 2014 -->
+<TABLE border=1>
+<TR> <TH> Min. </TH> <TH> 1st Qu. </TH> <TH> Median </TH> <TH> Mean </TH> <TH> 3rd Qu. </TH> <TH> Max. </TH>  </TR>
+  <TR> <TD align="right"> 0.00 </TD> <TD align="right"> 589.00 </TD> <TD align="right"> 1180.00 </TD> <TD align="right"> 1180.00 </TD> <TD align="right"> 1770.00 </TD> <TD align="right"> 2360.00 </TD> </TR>
+   </TABLE>
 
 ## What is mean total number of steps taken per day?
 
@@ -251,3 +267,6 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 [16]: http://stackoverflow.com/questions/8857287/how-to-add-subtract-time-from-a-posixlt-time-while-keeping-its-class-in-r
 [17]: http://stackoverflow.com/questions/11308754/add-multiple-columns-to-r-data-table-in-one-function-call
 [18]: http://rprogramming.net/aggregate-data-in-r-using-data-table/
+[19]: http://blog.revolutionanalytics.com/2010/02/making-publicationready-tables-with-xtable.html
+[20]: http://stackoverflow.com/questions/10758961/how-to-convert-a-table-to-a-data-frame-in-r
+[21]: http://stackoverflow.com/questions/5430338/remove-data-frame-row-names-when-using-xtable
