@@ -58,10 +58,9 @@ levels(activityData$interval) <- seq(1,length(originalIntervals))
 activityData <- data.table(activityData)
 ```
 
-
 ```{r originalIntervals, results='asis'}
-print(xtable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals))))),
-             type="html", include.rownames=FALSE)
+kable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals)))),
+      format="markdown")
 ```
 
 ## What is mean total number of steps taken per day?

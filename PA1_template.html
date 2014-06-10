@@ -237,18 +237,29 @@ levels(activityData$interval) &lt;- seq(1,length(originalIntervals))
 activityData &lt;- data.table(activityData)
 </code></pre>
 
-<pre><code class="r">print(xtable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals))))),
-             type=&quot;html&quot;, include.rownames=FALSE)
+<pre><code class="r">kable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals)))),
+      format=&quot;markdown&quot;)
 </code></pre>
 
-<!-- html table generated in R 3.1.0 by xtable 1.7-3 package -->
-
-<!-- Mon Jun 09 22:38:48 2014 -->
-
-<TABLE border=1>
-<TR> <TH> Min. </TH> <TH> 1st Qu. </TH> <TH> Median </TH> <TH> Mean </TH> <TH> 3rd Qu. </TH> <TH> Max. </TH>  </TR>
-  <TR> <TD align="right"> 0.00 </TD> <TD align="right"> 589.00 </TD> <TD align="right"> 1180.00 </TD> <TD align="right"> 1180.00 </TD> <TD align="right"> 1770.00 </TD> <TD align="right"> 2360.00 </TD> </TR>
-   </TABLE>
+<table><thead>
+<tr>
+<th align="right">Min.</th>
+<th align="right">1st Qu.</th>
+<th align="right">Median</th>
+<th align="right">Mean</th>
+<th align="right">3rd Qu.</th>
+<th align="right">Max.</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="right">0</td>
+<td align="right">589</td>
+<td align="right">1180</td>
+<td align="right">1180</td>
+<td align="right">1770</td>
+<td align="right">2360</td>
+</tr>
+</tbody></table>
 
 <h2>What is mean total number of steps taken per day?</h2>
 

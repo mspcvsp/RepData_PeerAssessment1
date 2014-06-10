@@ -60,18 +60,16 @@ activityData <- data.table(activityData)
 ```
 
 
-
 ```r
-print(xtable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals))))),
-             type="html", include.rownames=FALSE)
+kable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals)))),
+      format="markdown")
 ```
 
-<!-- html table generated in R 3.1.0 by xtable 1.7-3 package -->
-<!-- Mon Jun 09 22:38:48 2014 -->
-<TABLE border=1>
-<TR> <TH> Min. </TH> <TH> 1st Qu. </TH> <TH> Median </TH> <TH> Mean </TH> <TH> 3rd Qu. </TH> <TH> Max. </TH>  </TR>
-  <TR> <TD align="right"> 0.00 </TD> <TD align="right"> 589.00 </TD> <TD align="right"> 1180.00 </TD> <TD align="right"> 1180.00 </TD> <TD align="right"> 1770.00 </TD> <TD align="right"> 2360.00 </TD> </TR>
-   </TABLE>
+
+
+| Min.| 1st Qu.| Median| Mean| 3rd Qu.| Max.|
+|----:|-------:|------:|----:|-------:|----:|
+|    0|     589|   1180| 1180|    1770| 2360|
 
 ## What is mean total number of steps taken per day?
 
