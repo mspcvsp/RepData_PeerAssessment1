@@ -29,14 +29,6 @@ library(xtable)
 ```
 
 ## Loading and preprocessing the data
-There are 12*24 = 288 5 minute intervals in a day. However, the 5-minute 
-interval values range from 0 to 2355. The purpose of the following section
-of code is to:
-1. Convert the 5-minute interval variable into a factor variable in order to 
-facilaite computing the average daily activity  
-2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
-in one twenty-four hour period 
-
 
 ```r
 if (!file.exists("./Data")) {
@@ -57,19 +49,21 @@ activityData$interval <- as.factor(activityData$interval)
 levels(activityData$interval) <- seq(1,length(originalIntervals))
 
 activityData <- data.table(activityData)
+
+numberOfFiveMinuteIntervals <- 12 * 24
+
+minOriginalIntervals <- min(originalIntervals)
+maxOriginalIntervals <- max(originalIntervals)
 ```
 
-
-```r
-kable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals)))),
-      format="markdown")
-```
-
-
-
-| Min.| 1st Qu.| Median| Mean| 3rd Qu.| Max.|
-|----:|-------:|------:|----:|-------:|----:|
-|    0|     589|   1180| 1180|    1770| 2360|
+There are 288 5 minute intervals in a day. However, 
+the original intervals range from 0 to 
+2355. Therefore, the purpose of the above code chunk  
+is to:  
+1. Convert the 5-minute interval variable into a factor variable in order to 
+facilitate computing the average daily activity.  
+2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
+in one twenty-four hour period.  
 
 ## What is mean total number of steps taken per day?
 
@@ -265,6 +259,6 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 [16]: http://stackoverflow.com/questions/8857287/how-to-add-subtract-time-from-a-posixlt-time-while-keeping-its-class-in-r
 [17]: http://stackoverflow.com/questions/11308754/add-multiple-columns-to-r-data-table-in-one-function-call
 [18]: http://rprogramming.net/aggregate-data-in-r-using-data-table/
-[19]: http://blog.revolutionanalytics.com/2010/02/making-publicationready-tables-with-xtable.html
+[19]: http://stackoverflow.com/questions/15488350/programmatically-creating-markdown-tables-in-r-with-knitr
 [20]: http://stackoverflow.com/questions/10758961/how-to-convert-a-table-to-a-data-frame-in-r
 [21]: http://stackoverflow.com/questions/5430338/remove-data-frame-row-names-when-using-xtable

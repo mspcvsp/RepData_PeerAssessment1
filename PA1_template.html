@@ -209,14 +209,6 @@ library(xtable)
 
 <h2>Loading and preprocessing the data</h2>
 
-<p>There are 12*24 = 288 5 minute intervals in a day. However, the 5-minute 
-interval values range from 0 to 2355. The purpose of the following section
-of code is to:
-1. Convert the 5-minute interval variable into a factor variable in order to 
-facilaite computing the average daily activity<br/>
-2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
-in one twenty-four hour period </p>
-
 <pre><code class="r">if (!file.exists(&quot;./Data&quot;)) {
     dir.create(&quot;./Data&quot;)    
     unzip(&quot;./activity.zip&quot;, exdir=&quot;Data&quot;)
@@ -235,31 +227,21 @@ activityData$interval &lt;- as.factor(activityData$interval)
 levels(activityData$interval) &lt;- seq(1,length(originalIntervals))
 
 activityData &lt;- data.table(activityData)
+
+numberOfFiveMinuteIntervals &lt;- 12 * 24
+
+minOriginalIntervals &lt;- min(originalIntervals)
+maxOriginalIntervals &lt;- max(originalIntervals)
 </code></pre>
 
-<pre><code class="r">kable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals)))),
-      format=&quot;markdown&quot;)
-</code></pre>
-
-<table><thead>
-<tr>
-<th align="right">Min.</th>
-<th align="right">1st Qu.</th>
-<th align="right">Median</th>
-<th align="right">Mean</th>
-<th align="right">3rd Qu.</th>
-<th align="right">Max.</th>
-</tr>
-</thead><tbody>
-<tr>
-<td align="right">0</td>
-<td align="right">589</td>
-<td align="right">1180</td>
-<td align="right">1180</td>
-<td align="right">1770</td>
-<td align="right">2360</td>
-</tr>
-</tbody></table>
+<p>There are 288 5 minute intervals in a day. However, 
+the original intervals range from 0 to 
+2355. Therefore, the purpose of the above code chunk<br/>
+is to:<br/>
+1. Convert the 5-minute interval variable into a factor variable in order to 
+facilitate computing the average daily activity.<br/>
+2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
+in one twenty-four hour period.  </p>
 
 <h2>What is mean total number of steps taken per day?</h2>
 

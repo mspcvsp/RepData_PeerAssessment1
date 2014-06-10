@@ -29,14 +29,6 @@ library(xtable)
 ```
 
 ## Loading and preprocessing the data
-There are 12*24 = 288 5 minute intervals in a day. However, the 5-minute 
-interval values range from 0 to 2355. The purpose of the following section
-of code is to:
-1. Convert the 5-minute interval variable into a factor variable in order to 
-facilaite computing the average daily activity  
-2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
-in one twenty-four hour period 
-
 ```{r loadAndCleanData}
 if (!file.exists("./Data")) {
     dir.create("./Data")    
@@ -56,12 +48,21 @@ activityData$interval <- as.factor(activityData$interval)
 levels(activityData$interval) <- seq(1,length(originalIntervals))
 
 activityData <- data.table(activityData)
+
+numberOfFiveMinuteIntervals <- 12 * 24
+
+minOriginalIntervals <- min(originalIntervals)
+maxOriginalIntervals <- max(originalIntervals)
 ```
 
-```{r originalIntervals, results='asis'}
-kable(as.data.frame.matrix(t(as.matrix(summary(originalIntervals)))),
-      format="markdown")
-```
+There are `r numberOfFiveMinuteIntervals` 5 minute intervals in a day. However, 
+the original intervals range from `r minOriginalIntervals` to 
+`r maxOriginalIntervals`. Therefore, the purpose of the above code chunk  
+is to:  
+1. Convert the 5-minute interval variable into a factor variable in order to 
+facilitate computing the average daily activity.  
+2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
+in one twenty-four hour period.  
 
 ## What is mean total number of steps taken per day?
 ```{r totalNumberOfSteps, fig.height=4, fig.width=7, message=FALSE}
