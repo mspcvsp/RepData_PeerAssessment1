@@ -1,9 +1,9 @@
 # Reproducible Research: Peer Assessment 1
 The objective of this assignment is to evaluate data anonymously collected from 
-a personal activity monitoring device. This data contains 17,568 samples 
-measured at five minute intervals during the months of October and November 
-2012. In addition, the [Peer Assessment assignment #1 description][1] includes 
-the following definition of the variables contained in this data set:
+a personal activity monitoring device. This data contains samples measured at 
+five minute intervals during the months of October and November 2012. In 
+addition, the [Peer Assessment assignment #1 description][1] includes the 
+following definition of the variables contained in this data set:
 * steps: Number of steps an individual takes during a five minute interval  
 * date: "The date on which the measurement was taken in YYYY-MM-DD format"  
 * interval: "Identifier for the 5-minute interval in which [the] measurement was
@@ -73,10 +73,11 @@ originalIntervals <- unique(activityData$interval)
 minOriginalIntervals <- min(originalIntervals)
 maxOriginalIntervals <- max(originalIntervals)
 ```
-For example, there are `r numberOfFiveMinuteIntervals` 5 minute intervals in a 
-day. However, the original 5-minute intervals range from 
-`r minOriginalIntervals` to `r maxOriginalIntervals`. Therefore, the purpose of 
-the following code chunk is to:  
+For example, there are numberOfFiveMinuteIntervals = 
+`r numberOfFiveMinuteIntervals` 5 minute intervals in a day. However, the 
+original 5-minute intervals range from [minOriginalIntervals,
+maxOriginalIntervals]: [`r minOriginalIntervals`,`r maxOriginalIntervals`]. 
+Therefore, the purpose of the following code chunk is to:  
 1. Convert the 5-minute interval variable into a factor variable in order to 
 facilitate computing the average daily activity.  
 2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
@@ -97,8 +98,9 @@ datasets. For example, the first statement in the
 computeTotalNumberStepsPerDay() function defined in the following code chunk 
 computes the total number of steps per day using data.table's [aggregation 
 functionality][7]. In addition, this statements excludes observations that
-contains missing values (i.e. NA) using the [complete.cases][8] function.
-```{r totalNumberOfSteps, fig.height=4, fig.width=7, message=FALSE}
+contains missing values (i.e. NA) using the [complete.cases][8] function. This
+statement also transforms the output of this aggregation back into a data.frame.
+```{r totalNumberOfStepsPart1, fig.height=4, fig.width=7, message=FALSE}
 computeTotalNumberStepsPerDay <- function(activityData) {
     totalNumberStepsPerDay <- 
         as.data.frame(activityData[complete.cases(activityData),
@@ -111,6 +113,19 @@ computeTotalNumberStepsPerDay <- function(activityData) {
 
 totalNumberStepsPerDay <- computeTotalNumberStepsPerDay(activityData)
 
+numberDays <- nrow(totalNumberStepsPerDay)
+
+numberIntervals <- nrow(activityData)
+```
+My rationale for this approach is that the number of observations in the 
+data.table that contains the total number of steps per day (i.e. 
+numberDays = `r numberDays` is significantly less than the number of rows in 
+the original data (i.e. numberIntervals = `r numberIntervals`). Therefore, 
+storing the data in a data.frame or a data.table are both equally valid design 
+decisions. For example,the name that contains the total number of steps per 
+5-minute interval can be set using the *colnames()* function or via the 
+[data.table assignment syntax][9].
+```{r totalNumberOfStepsPart2, fig.height=4, fig.width=7, message=FALSE}
 ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
     geom_histogram(binwidth=1000,fill="white",colour="black") + 
     xlab("Total Number of Steps / Day")
@@ -122,6 +137,7 @@ cat(sprintf("Mean total number of steps taken per day: %.1f",
     fill=TRUE,
     sep="\n")
 ```
+
 
 ## What is the average daily activity pattern?
 ```{r dailyActivity, fig.height=4, fig.width=7, message=FALSE}
@@ -246,3 +262,4 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 [7]: http://datatable.r-forge.r-project.org/
 [8]: http://stackoverflow.com/questions/4862178/remove-rows-with-nas-in-data-
 frame
+[9]: http://stackoverflow.com/questions/6407239/how-to-change-the-datatable-column-name
