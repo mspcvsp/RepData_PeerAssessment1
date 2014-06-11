@@ -40,15 +40,17 @@ library(data.table)
 library(ggplot2)
 library(lubridate)
 ```
-
 ## Loading and preprocessing the data
 The template [Github repository][1] for this assignment includes a compressed 
 file (i.e activity.zip) that contains the personal activity monitoring data.
 Therefore, the first step performed by the following code chunk is to determine
 whether or not a "Data" directory has been created. If not, the R software 
 contained in this if statement creates the "Data" directory and [extracts the
-data from activity.zip][3]
-
+data from activity.zip][3] Next, the activity data comma separated value file
+is read from disk with the [header option set to TRUE and the stringsAsFactors 
+option set to false][4]. The third operation performed by this R code chunk is 
+transforming the character date variable in a POSIXct class using the ymd (i.e,
+"year","month","day") function from the [lubridate][5] R package.
 
 ```r
 if (!file.exists("./Data")) {
@@ -61,29 +63,33 @@ activityData <- read.csv("./Data/activity.csv",
                          stringsAsFactors=FALSE)
 
 activityData$date <- ymd(activityData$date)
+```
+During exploratory data analysis I noticed that the 5 minute intervals did not 
+correspond to the number of 5 minute intervals in a 24-hour period.  
+
+```r
+numberOfFiveMinuteIntervals <- 12 * 24
 
 originalIntervals <- unique(activityData$interval)
+minOriginalIntervals <- min(originalIntervals)
+maxOriginalIntervals <- max(originalIntervals)
+```
+For example, there are 288 5 minute intervals in a 
+day. However, the original intervals range from 0 to 
+2355. Therefore, the purpose of the following code chunk is 
+to:  
+1. Convert the 5-minute interval variable into a factor variable in order to 
+facilitate computing the average daily activity.  
+2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
+in one twenty-four hour period.  
 
+```r
 activityData$interval <- as.factor(activityData$interval)
 
 levels(activityData$interval) <- seq(1,length(originalIntervals))
 
 activityData <- data.table(activityData)
-
-numberOfFiveMinuteIntervals <- 12 * 24
-
-minOriginalIntervals <- min(originalIntervals)
-maxOriginalIntervals <- max(originalIntervals)
 ```
-
-There are 288 5 minute intervals in a day. However, 
-the original intervals range from 0 to 
-2355. Therefore, the purpose of the above code chunk  
-is to:  
-1. Convert the 5-minute interval variable into a factor variable in order to 
-facilitate computing the average daily activity.  
-2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
-in one twenty-four hour period.  
 
 ## What is mean total number of steps taken per day?
 
@@ -262,8 +268,8 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 ```
 
 ![plot of chunk activityPatternDifferences](figure/activityPatternDifferences.png) 
-
 [1]: https://github.com/rdpeng/RepData_PeerAssessment1
-[2]: http://stackoverflow.com/questions/9341635/how-can-i-check-for-installed-
-r-packages-before-running-install-packages
+[2]: http://stackoverflow.com/questions/9341635/how-can-i-check-for-installed-r-packages-before-running-install-packages
 [3]: http://www.r-bloggers.com/read-compressed-zip-files-in-r/
+[4]: http://cran.r-project.org/doc/contrib/de_Jonge+van_der_Loo-Introduction_to_data_cleaning_with_R.pdf
+[5]: http://www.jstatsoft.org/v40/i03/paper
