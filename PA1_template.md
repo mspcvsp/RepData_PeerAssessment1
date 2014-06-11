@@ -6,7 +6,8 @@ measured at five minute intervals during the months of October and November
 the following definition of the variables contained in this data set:
 * steps: Number of steps an individual takes during a five minute interval  
 * date: "The date on which the measurement was taken in YYYY-MM-DD format"  
-* interval: "Identifier for the 5-minute interval in which [the] measurement was taken"
+* interval: "Identifier for the 5-minute interval in which [the] measurement was
+taken"
 
 The objective of the following code chunk is to setup the R language 
 environment by performing four operations. First, this code chunk defining
@@ -75,13 +76,15 @@ minOriginalIntervals <- min(originalIntervals)
 maxOriginalIntervals <- max(originalIntervals)
 ```
 For example, there are 288 5 minute intervals in a 
-day. However, the original intervals range from 0 to 
-2355. Therefore, the purpose of the following code chunk is 
-to:  
+day. However, the original 5-minute intervals range from 
+0 to 2355. Therefore, the purpose of 
+the following code chunk is to:  
 1. Convert the 5-minute interval variable into a factor variable in order to 
 facilitate computing the average daily activity.  
 2. Set the 5-minute intervals to correspond to the number of 5 minute intervals
 in one twenty-four hour period.  
+3. Convert the data frame that contains the personal activity monitoring device 
+data (i.e. activityData) into a [data.table][6]
 
 ```r
 activityData$interval <- as.factor(activityData$interval)
@@ -90,8 +93,14 @@ levels(activityData$interval) <- seq(1,length(originalIntervals))
 
 activityData <- data.table(activityData)
 ```
-
 ## What is mean total number of steps taken per day?
+My rationale for transforming the activityData variable from a data.frame
+to a data.table is that this data type was designed to work with large 
+datasets. For example, the first statement in the 
+computeTotalNumberStepsPerDay() function defined in the following code chunk 
+computes the total number of steps per day using data.table's [aggregation 
+functionality][7]. In addition, this statements excludes observations that
+contains missing values (i.e. NA) using the [complete.cases][8] function.
 
 ```r
 computeTotalNumberStepsPerDay <- function(activityData) {
@@ -114,8 +123,6 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
 ![plot of chunk totalNumberOfSteps](figure/totalNumberOfSteps.png) 
 
 ```r
-ggsave("./figure/totalNumberOfSteps.png")
-
 cat(sprintf("Mean total number of steps taken per day: %.1f", 
             mean(totalNumberStepsPerDay$totalnumberofsteps)),
     sprintf("Median total number of steps taken per day: %.1f", 
@@ -164,8 +171,6 @@ maxInterval <-
 maxIntervalTime <- as.POSIXlt(paste(activityData[1,date],"00:00:00"))
 maxIntervalTime$min <- maxIntervalTime$min + maxInterval*5
 maxIntervalTime <- strftime(maxIntervalTime,"%H:%M (24 hour)")
-
-ggsave("./figure/dailyActivity.png")
 ```
 
 On average across all the days in the dataset, the five minute interval that 
@@ -211,8 +216,6 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
 ![plot of chunk imputeMissingValues](figure/imputeMissingValues.png) 
 
 ```r
-ggsave("./figure/imputeMissingValues.png")
-
 cat(sprintf("Mean total number of steps taken per day: %.1f", 
             mean(totalNumberStepsPerDay$totalnumberofsteps)),
     sprintf("Median total number of steps taken per day: %.1f", 
@@ -273,3 +276,7 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 [3]: http://www.r-bloggers.com/read-compressed-zip-files-in-r/
 [4]: http://cran.r-project.org/doc/contrib/de_Jonge+van_der_Loo-Introduction_to_data_cleaning_with_R.pdf
 [5]: http://www.jstatsoft.org/v40/i03/paper
+[6]: http://www.londonr.org/LondonR-20090331/data.table.LondonR.pdf
+[7]: http://datatable.r-forge.r-project.org/
+[8]: http://stackoverflow.com/questions/4862178/remove-rows-with-nas-in-data-
+frame
