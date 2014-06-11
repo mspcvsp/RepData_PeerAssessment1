@@ -239,8 +239,8 @@ contained in this if statement creates the &ldquo;Data&rdquo; directory and <a h
 data from activity.zip</a> Next, the activity data comma separated value file
 is read from disk with the <a href="http://cran.r-project.org/doc/contrib/de_Jonge+van_der_Loo-Introduction_to_data_cleaning_with_R.pdf">header option set to TRUE and the stringsAsFactors 
 option set to false</a>. The third operation performed by this R code chunk is 
-transforming the character date variable in a POSIXct class using the ymd (i.e,
-&ldquo;year&rdquo;,&ldquo;month&rdquo;,&ldquo;day&rdquo;) function from the <a href="http://www.jstatsoft.org/v40/i03/paper">lubridate</a> R package.</p>
+transforming the character date variable in a POSIXct class using the <em>ymd</em> 
+(i.e, &ldquo;year&rdquo;,&ldquo;month&rdquo;,&ldquo;day&rdquo;) function from the <a href="http://www.jstatsoft.org/v40/i03/paper">lubridate</a> R package.</p>
 
 <pre><code class="r">if (!file.exists(&quot;./Data&quot;)) {
     dir.create(&quot;./Data&quot;)    
@@ -288,7 +288,7 @@ activityData &lt;- data.table(activityData)
 <p>My rationale for transforming the activityData variable from a data.frame
 to a data.table is that this data type was designed to work with large 
 datasets. For example, the first statement in the 
-computeTotalNumberStepsPerDay() function defined in the following code chunk 
+<em>computeTotalNumberStepsPerDay()</em> function defined in the following code chunk 
 computes the total number of steps per day using data.table&#39;s <a href="http://datatable.r-forge.r-project.org/">aggregation 
 functionality</a>. In addition, this statements excludes observations that
 contains missing values (i.e. NA) using the <a href="http://stackoverflow.com/questions/4862178/remove-rows-with-nas-in-data-">complete.cases</a> function. This
@@ -306,20 +306,19 @@ statement also transforms the output of this aggregation back into a data.frame.
 
 totalNumberStepsPerDay &lt;- computeTotalNumberStepsPerDay(activityData)
 
-numberUniqueIntervals &lt;- nrow(totalNumberStepsPerDay)
+numberDays &lt;- nrow(totalNumberStepsPerDay)
 
 numberIntervals &lt;- nrow(activityData)
 </code></pre>
 
 <p>My rationale for this approach is that the number of observations in the 
 data.table that contains the total number of steps per day (i.e. 
-maxOriginalIntervals = 53
-is significantly less than the number of rows in the original data (i.e. 
-numberIntervals = 17568). Therefore, storing the data in a 
-data.frame or a data.table are both equally valid design decisions. For example,
-the name that contains the total number of steps per 5-minute interval can
-be set using the <em>colnames()</em> function or via the <a href="http://stackoverflow.com/questions/6407239/how-to-change-the-datatable-column-name">data.table assignment 
-syntax</a>.</p>
+numberDays = 53 is significantly less than the number of rows in 
+the original data (i.e. numberIntervals = 17568). Therefore, 
+storing the data in a data.frame or a data.table are both equally valid design 
+decisions. For example,the name that contains the total number of steps per 
+5-minute interval can be set using the <em>colnames()</em> function or via the 
+<a href="http://stackoverflow.com/questions/6407239/how-to-change-the-datatable-column-name">data.table assignment syntax</a>.</p>
 
 <pre><code class="r">ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
     geom_histogram(binwidth=1000,fill=&quot;white&quot;,colour=&quot;black&quot;) + 

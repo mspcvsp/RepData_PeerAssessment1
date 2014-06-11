@@ -50,8 +50,8 @@ contained in this if statement creates the "Data" directory and [extracts the
 data from activity.zip][3] Next, the activity data comma separated value file
 is read from disk with the [header option set to TRUE and the stringsAsFactors 
 option set to false][4]. The third operation performed by this R code chunk is 
-transforming the character date variable in a POSIXct class using the ymd (i.e,
-"year","month","day") function from the [lubridate][5] R package.
+transforming the character date variable in a POSIXct class using the *ymd* 
+(i.e, "year","month","day") function from the [lubridate][5] R package.
 
 ```r
 if (!file.exists("./Data")) {
@@ -98,7 +98,7 @@ activityData <- data.table(activityData)
 My rationale for transforming the activityData variable from a data.frame
 to a data.table is that this data type was designed to work with large 
 datasets. For example, the first statement in the 
-computeTotalNumberStepsPerDay() function defined in the following code chunk 
+*computeTotalNumberStepsPerDay()* function defined in the following code chunk 
 computes the total number of steps per day using data.table's [aggregation 
 functionality][7]. In addition, this statements excludes observations that
 contains missing values (i.e. NA) using the [complete.cases][8] function. This
@@ -117,20 +117,18 @@ computeTotalNumberStepsPerDay <- function(activityData) {
 
 totalNumberStepsPerDay <- computeTotalNumberStepsPerDay(activityData)
 
-numberUniqueIntervals <- nrow(totalNumberStepsPerDay)
+numberDays <- nrow(totalNumberStepsPerDay)
 
 numberIntervals <- nrow(activityData)
 ```
 My rationale for this approach is that the number of observations in the 
 data.table that contains the total number of steps per day (i.e. 
-maxOriginalIntervals = 53
-is significantly less than the number of rows in the original data (i.e. 
-numberIntervals = 17568). Therefore, storing the data in a 
-data.frame or a data.table are both equally valid design decisions. For example,
-the name that contains the total number of steps per 5-minute interval can
-be set using the *colnames()* function or via the [data.table assignment 
-syntax][9].
-
+numberDays = 53 is significantly less than the number of rows in 
+the original data (i.e. numberIntervals = 17568). Therefore, 
+storing the data in a data.frame or a data.table are both equally valid design 
+decisions. For example,the name that contains the total number of steps per 
+5-minute interval can be set using the *colnames()* function or via the 
+[data.table assignment syntax][9].
 
 ```r
 ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
