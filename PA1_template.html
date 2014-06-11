@@ -181,11 +181,33 @@ hljs.initHighlightingOnLoad();
 <body>
 <h1>Reproducible Research: Peer Assessment 1</h1>
 
-<p><a href="http://tex.stackexchange.com/questions/152488/suppress-library-comments-from-ouput-with-knitr">Link 1</a>
-<a href="http://stackoverflow.com/questions/14187048/r-language-clean-variables-and-close-connections">Link 2</a>
-<a href="http://stackoverflow.com/questions/9341635/how-can-i-check-for-installed-r-packages-before-running-install-packages">Link 3</a>
-<a href="http://stackoverflow.com/questions/15267018/knitr-gets-tricked-by-data-table-assignment">Link 4</a>
-<a href="http://www.r-bloggers.com/read-compressed-zip-files-in-r/">Link 5</a></p>
+<p>The objective of this assignment is to evaluate data anonymously collected from 
+a personal activity monitoring device. This data contains 17,568 samples 
+measured at five minute intervals during the months of October and November 
+2012. In addition, the <a href="https://github.com/rdpeng/RepData_PeerAssessment1">Peer Assessment assignment #1 description</a> includes 
+the following definition of the variables contained in this data set:</p>
+
+<ul>
+<li>steps: Number of steps an individual takes during a five minute interval<br/></li>
+<li>date: &ldquo;The date on which the measurement was taken in YYYY-MM-DD format&rdquo;<br/></li>
+<li>interval: &ldquo;Identifier for the 5-minute interval in which [the] measurement was taken&rdquo;</li>
+</ul>
+
+<p>The objective of the following code chunk is to setup the R language 
+environment by performing four operations. First, this code chunk defining
+a character vector (i.e. required.packages) that defines the required packages. 
+The second operation performed by this R software is initializing charater 
+vector (i.e. new.packages) based on a <a href="http://stackoverflow.com/questions/9341635/how-can-i-check-for-installed-">comparison of required packages with the 
+currently installed packages</a>. Third, this code chunk installs the required
+packages by passing the new.packages character vector to the install.packages 
+function. The fourth operation performed by this R code chunk is loading the 
+following required packages:</p>
+
+<ul>
+<li>data.table<br/></li>
+<li>ggplot2<br/></li>
+<li>lubridate<br/></li>
+</ul>
 
 <pre><code class="r"># Verify required packages are installed
 required.packages &lt;- c(&quot;lubridate&quot;,
@@ -204,10 +226,16 @@ if(length(new.packages)) {
 library(data.table)
 library(ggplot2)
 library(lubridate)
-library(xtable)
 </code></pre>
 
 <h2>Loading and preprocessing the data</h2>
+
+<p>The template <a href="https://github.com/rdpeng/RepData_PeerAssessment1">Github repository</a> for this assignment includes a compressed 
+file (i.e activity.zip) that contains the personal activity monitoring data.
+Therefore, the first step performed by the following code chunk is to determine
+whether or not a &ldquo;Data&rdquo; directory has been created. If not, the R software 
+contained in this if statement creates the &ldquo;Data&rdquo; directory and <a href="http://www.r-bloggers.com/read-compressed-zip-files-in-r/">extracts the
+data from activity.zip</a></p>
 
 <pre><code class="r">if (!file.exists(&quot;./Data&quot;)) {
     dir.create(&quot;./Data&quot;)    
@@ -408,6 +436,8 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 </code></pre>
 
 <p><img src="data:image/png;base64,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" alt="plot of chunk activityPatternDifferences"/> </p>
+
+<p>r-packages-before-running-install-packages</p>
 
 </body>
 

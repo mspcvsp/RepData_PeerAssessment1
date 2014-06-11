@@ -1,11 +1,25 @@
 # Reproducible Research: Peer Assessment 1
+The objective of this assignment is to evaluate data anonymously collected from 
+a personal activity monitoring device. This data contains 17,568 samples 
+measured at five minute intervals during the months of October and November 
+2012. In addition, the [Peer Assessment assignment #1 description][1] includes 
+the following definition of the variables contained in this data set:
+* steps: Number of steps an individual takes during a five minute interval  
+* date: "The date on which the measurement was taken in YYYY-MM-DD format"  
+* interval: "Identifier for the 5-minute interval in which [the] measurement was taken"
 
-[Link 1][1]
-[Link 2][2]
-[Link 3][3]
-[Link 4][4]
-[Link 5][5]
-
+The objective of the following code chunk is to setup the R language 
+environment by performing four operations. First, this code chunk defining
+a character vector (i.e. required.packages) that defines the required packages. 
+The second operation performed by this R software is initializing charater 
+vector (i.e. new.packages) based on a [comparison of required packages with the 
+currently installed packages][2]. Third, this code chunk installs the required
+packages by passing the new.packages character vector to the install.packages 
+function. The fourth operation performed by this R code chunk is loading the 
+following required packages:
+* data.table  
+* ggplot2  
+* lubridate  
 
 ```r
 # Verify required packages are installed
@@ -25,10 +39,16 @@ if(length(new.packages)) {
 library(data.table)
 library(ggplot2)
 library(lubridate)
-library(xtable)
 ```
 
 ## Loading and preprocessing the data
+The template [Github repository][1] for this assignment includes a compressed 
+file (i.e activity.zip) that contains the personal activity monitoring data.
+Therefore, the first step performed by the following code chunk is to determine
+whether or not a "Data" directory has been created. If not, the R software 
+contained in this if statement creates the "Data" directory and [extracts the
+data from activity.zip][3]
+
 
 ```r
 if (!file.exists("./Data")) {
@@ -242,23 +262,8 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 ```
 
 ![plot of chunk activityPatternDifferences](figure/activityPatternDifferences.png) 
-[1]: http://tex.stackexchange.com/questions/152488/suppress-library-comments-from-ouput-with-knitr
-[2]: http://stackoverflow.com/questions/14187048/r-language-clean-variables-and-close-connections
-[3]: http://stackoverflow.com/questions/9341635/how-can-i-check-for-installed-r-packages-before-running-install-packages
-[4]: http://stackoverflow.com/questions/15267018/knitr-gets-tricked-by-data-table-assignment
-[5]: http://www.r-bloggers.com/read-compressed-zip-files-in-r/
-[6]: http://stackoverflow.com/questions/18799901/data-frame-group-by-column
-[7]: http://stackoverflow.com/questions/4862178/remove-rows-with-nas-in-data-frame
-[9]: http://stat.ethz.ch/R-manual/R-devel/library/base/html/cat.html
-[10]: http://stackoverflow.com/questions/14733732/cant-change-fonts-in-ggplot-geom-text
-[11]: http://stackoverflow.com/questions/3606697/how-to-set-limits-for-axes-in-ggplot2-r-plots
-[12]: http://www.r-bloggers.com/how-to-calculate-with-dates-and-hours-in-r/
-[13]: http://jeromyanglim.blogspot.com/2012/05/getting-started-with-r-markdown-knitr.html
-[14]: http://www.londonr.org/LondonR-20090331/data.table.LondonR.pdf
-[15]: http://datatable.r-forge.r-project.org/
-[16]: http://stackoverflow.com/questions/8857287/how-to-add-subtract-time-from-a-posixlt-time-while-keeping-its-class-in-r
-[17]: http://stackoverflow.com/questions/11308754/add-multiple-columns-to-r-data-table-in-one-function-call
-[18]: http://rprogramming.net/aggregate-data-in-r-using-data-table/
-[19]: http://stackoverflow.com/questions/15488350/programmatically-creating-markdown-tables-in-r-with-knitr
-[20]: http://stackoverflow.com/questions/10758961/how-to-convert-a-table-to-a-data-frame-in-r
-[21]: http://stackoverflow.com/questions/5430338/remove-data-frame-row-names-when-using-xtable
+
+[1]: https://github.com/rdpeng/RepData_PeerAssessment1
+[2]: http://stackoverflow.com/questions/9341635/how-can-i-check-for-installed-
+r-packages-before-running-install-packages
+[3]: http://www.r-bloggers.com/read-compressed-zip-files-in-r/
