@@ -135,8 +135,8 @@ generate a histogram of the total number of steps taken per day. In addition,
 the coloring of my histogram plot is based on an example on page 119 of the 
 [R Graphics Cookbook][11] written by Winston Chang. An important point 
 regarding generating plots in an R Markdown file is that [knitr automatically 
-saves them to a *figure* sub-folder][12] of the current working directory with the 
-file prefix set by the [code chunk name][13].
+saves them to a *figure* sub-folder][12] of the current working directory with 
+the file prefix set by the [code chunk name][13].
 
 ```r
 ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
@@ -159,6 +159,31 @@ total number of steps taken per day:
 * medianTotalNumberOfStepsPerDay: 10765
 
 ## What is the average daily activity pattern?
+The first statement in this code chunk estimates the daily activity using
+the same approach that I previously followed to compute the total number of
+steps taken per day. For example, I exclude data frame rows (i.e. observations)
+that contain missing data using the [complete.cases function][8]. Next, I apply
+the [data.frame's aggregation functionality][7] to compute the average number
+of steps taken per day. Finally, this R code statement converts the resulting
+data.table to a data.table. The second line of R code in this code chunk 
+converts the *interval* column of the dailyActivity data frame from a factor
+to a numeric variable. This processing step is required in order to plot the 
+average number of steps taken per 5-minute interval.
+
+Next, third R code statements contained in this code chunk convert sets the 
+column names of the dailyActivity data.frame. It is important to include this
+operation because the data.table aggregation output column is named *V1*. Once
+the formating of the dailyAcitivity data.frame is complete, I plot the 
+estimated average number of steps per 5-minute interval. The technical 
+reference that I used to generate this plot is the [R Graphics Cookbok written
+by Winston Chang][11].
+
+This code chunk also computes the 5-minute interval that contains the maximum
+average number of steps taken. In addition, the following R statemnts estimates 
+the corresponding 24-hour time using the following processing steps:  
+1. [Computes the 24-hour time corresponding to the 5-minute interval that 
+contains maximum average number of steps][14]  
+2. [Formats the resultant time using the *srtftime()* function.][15]
 
 ```r
 dailyActivty <- as.data.frame(activityData[complete.cases(activityData),
@@ -193,11 +218,9 @@ maxIntervalTime <- as.POSIXlt(paste(activityData[1,date],"00:00:00"))
 maxIntervalTime$min <- maxIntervalTime$min + maxInterval*5
 maxIntervalTime <- strftime(maxIntervalTime,"%H:%M (24 hour)")
 ```
-
 On average across all the days in the dataset, the five minute interval that 
 contains the maximum number steps is #104 which corresponds to   
 08:40 (24 hour).
-
 ## Imputing missing values
 
 ```r
@@ -306,3 +329,5 @@ frame
 [11]: http://shop.oreilly.com/product/0636920023135.do
 [12]: http://jeromyanglim.blogspot.com/2012/05/getting-started-with-r-markdown-knitr.html
 [13]: http://yihui.name/knitr/options
+[14]: http://stackoverflow.com/questions/8857287/how-to-add-subtract-time-from-a-posixlt-time-while-keeping-its-class-in-r
+[15]: http://www.r-bloggers.com/how-to-calculate-with-dates-and-hours-in-r/
