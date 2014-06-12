@@ -95,7 +95,7 @@ levels(activityData$interval) <- seq(1,length(originalIntervals))
 activityData <- data.table(activityData)
 ```
 ## What is mean total number of steps taken per day?
-My rationale for transforming the activityData variable from a data.frame
+An advantage of transforming the activityData variable from a data.frame
 to a data.table is that this data type was designed to work with large 
 datasets. For example, the first statement in the 
 *computeTotalNumberStepsPerDay()* function defined in the following code chunk 
@@ -130,6 +130,11 @@ decisions. For example,the name that contains the total number of steps per
 5-minute interval can be set using the *colnames()* function or via the 
 [data.table assignment syntax][9].
 
+The following code chunk illustrates the [ggplot2][10] commands that I used to 
+generate a histogram of the total number of steps taken per day. In addition,
+the coloring of my histogram plot is based on an example on page 119 of the 
+[R Graphics Cookbook][11] written by Winston Chang.
+
 ```r
 ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
     geom_histogram(binwidth=1000,fill="white",colour="black") + 
@@ -139,20 +144,16 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
 ![plot of chunk totalNumberOfStepsPart2](figure/totalNumberOfStepsPart2.png) 
 
 ```r
-cat(sprintf("Mean total number of steps taken per day: %.1f", 
-            mean(totalNumberStepsPerDay$totalnumberofsteps)),
-    sprintf("Median total number of steps taken per day: %.1f", 
-            median(totalNumberStepsPerDay$totalnumberofsteps)),
-    fill=TRUE,
-    sep="\n")
-```
+meanTotalNumberStepsPerDay <- 
+    mean(totalNumberStepsPerDay$totalnumberofsteps)
 
+medianTotalNumberOfStepsPerDay <- 
+    median(totalNumberStepsPerDay$totalnumberofsteps)
 ```
-## Mean total number of steps taken per day: 10766.2
-## 
-## Median total number of steps taken per day: 10765.0
-```
-
+This above code chunk also computes the following summary statistics for the 
+total number of steps taken per day:
+* meanTotalNumberStepsPerDay: 1.0766 &times; 10<sup>4</sup>
+* medianTotalNumberOfStepsPerDay: 10765
 
 ## What is the average daily activity pattern?
 
@@ -298,3 +299,5 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 [8]: http://stackoverflow.com/questions/4862178/remove-rows-with-nas-in-data-
 frame
 [9]: http://stackoverflow.com/questions/6407239/how-to-change-the-datatable-column-name
+[10]: http://docs.ggplot2.org/current/
+[11]: http://shop.oreilly.com/product/0636920023135.do
