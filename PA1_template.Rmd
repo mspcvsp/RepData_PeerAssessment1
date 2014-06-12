@@ -136,12 +136,12 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
     xlab("Total Number of Steps / Day")
 
 meanTotalNumberStepsPerDay <- 
-    mean(totalNumberStepsPerDay$totalnumberofsteps)
+    sprintf('%.2f',mean(totalNumberStepsPerDay$totalnumberofsteps))
 
 medianTotalNumberOfStepsPerDay <- 
     median(totalNumberStepsPerDay$totalnumberofsteps)
 ```
-This above code chunk also computes the following summary statistics for the 
+The above code chunk also computes the following summary statistics for the 
 total number of steps taken per day:
 * meanTotalNumberStepsPerDay: `r meanTotalNumberStepsPerDay`
 * medianTotalNumberOfStepsPerDay: `r medianTotalNumberOfStepsPerDay`

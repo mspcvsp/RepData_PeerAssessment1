@@ -145,14 +145,14 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
 
 ```r
 meanTotalNumberStepsPerDay <- 
-    mean(totalNumberStepsPerDay$totalnumberofsteps)
+    sprintf('%.2f',mean(totalNumberStepsPerDay$totalnumberofsteps))
 
 medianTotalNumberOfStepsPerDay <- 
     median(totalNumberStepsPerDay$totalnumberofsteps)
 ```
-This above code chunk also computes the following summary statistics for the 
+The above code chunk also computes the following summary statistics for the 
 total number of steps taken per day:
-* meanTotalNumberStepsPerDay: 1.0766 &times; 10<sup>4</sup>
+* meanTotalNumberStepsPerDay: 10766.19
 * medianTotalNumberOfStepsPerDay: 10765
 
 ## What is the average daily activity pattern?
