@@ -12,7 +12,7 @@ taken"
 The objective of the following code chunk is to setup the R language 
 environment by performing four operations. First, this code chunk defining
 a character vector (i.e. required.packages) that defines the required packages. 
-The second operation performed by this R software is initializing charater 
+The second operation performed by this R software is initializing a character 
 vector (i.e. new.packages) based on a [comparison of required packages with the 
 currently installed packages][2]. Third, this code chunk installs the required
 packages by passing the new.packages character vector to the install.packages 
@@ -173,13 +173,13 @@ average number of steps taken per 5-minute interval.
 Next, third R code statements contained in this code chunk convert sets the 
 column names of the dailyActivity data.frame. It is important to include this
 operation because the data.table aggregation output column is named *V1*. Once
-the formating of the dailyAcitivity data.frame is complete, I plot the 
+the formatting of the dailyAcitivity data.frame is complete, I plot the 
 estimated average number of steps per 5-minute interval. The technical 
-reference that I used to generate this plot is the [R Graphics Cookbok written
+reference that I used to generate this plot is the [R Graphics Cookbook written
 by Winston Chang][11].
 
 This code chunk also computes the 5-minute interval that contains the maximum
-average number of steps taken. In addition, the following R statemnts estimates 
+average number of steps taken. In addition, the following R statements estimates 
 the corresponding 24-hour time using the following processing steps:  
 1. [Computes the 24-hour time corresponding to the 5-minute interval that 
 contains maximum average number of steps][14]  
@@ -227,10 +227,10 @@ contains the maximum number steps is #104 which corresponds to
 totalNumberMissingValues <- nrow(activityData) - 
                             sum(complete.cases(activityData))
 ```
-
-The total number of missing values is 2304, which is 
-computed as by subtracting the number of rows where all of the variables (i.e. 
-columns) are specified from the total number of rows.
+The total number of missing values calculated by the above code chunk is 
+2304, which is computed as by subtracting the number of 
+[rows where all of the variables (i.e. columns) are specified][8] from the total 
+number of rows.
 
 
 ```r
@@ -260,18 +260,11 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
 ![plot of chunk imputeMissingValues](figure/imputeMissingValues.png) 
 
 ```r
-cat(sprintf("Mean total number of steps taken per day: %.1f", 
-            mean(totalNumberStepsPerDay$totalnumberofsteps)),
-    sprintf("Median total number of steps taken per day: %.1f", 
-            median(totalNumberStepsPerDay$totalnumberofsteps)),
-    fill=TRUE,
-    sep="\n")
-```
+filledIn.meanTotalNumberStepsPerDay <- 
+    mean(totalNumberStepsPerDay$totalnumberofsteps)
 
-```
-## Mean total number of steps taken per day: 10765.6
-## 
-## Median total number of steps taken per day: 10762.0
+filledIn.medianTotalNumberStepsPerDay <- 
+    median(totalNumberStepsPerDay$totalnumberofsteps)
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?

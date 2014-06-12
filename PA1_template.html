@@ -197,7 +197,7 @@ taken&rdquo;</li>
 <p>The objective of the following code chunk is to setup the R language 
 environment by performing four operations. First, this code chunk defining
 a character vector (i.e. required.packages) that defines the required packages. 
-The second operation performed by this R software is initializing charater 
+The second operation performed by this R software is initializing a character 
 vector (i.e. new.packages) based on a <a href="http://stackoverflow.com/questions/9341635/how-can-i-check-for-installed-r-packages-before-running-install-packages">comparison of required packages with the 
 currently installed packages</a>. Third, this code chunk installs the required
 packages by passing the new.packages character vector to the install.packages 
@@ -366,13 +366,13 @@ average number of steps taken per 5-minute interval.</p>
 <p>Next, third R code statements contained in this code chunk convert sets the 
 column names of the dailyActivity data.frame. It is important to include this
 operation because the data.table aggregation output column is named <em>V1</em>. Once
-the formating of the dailyAcitivity data.frame is complete, I plot the 
+the formatting of the dailyAcitivity data.frame is complete, I plot the 
 estimated average number of steps per 5-minute interval. The technical 
-reference that I used to generate this plot is the <a href="http://shop.oreilly.com/product/0636920023135.do">R Graphics Cookbok written
+reference that I used to generate this plot is the <a href="http://shop.oreilly.com/product/0636920023135.do">R Graphics Cookbook written
 by Winston Chang</a>.</p>
 
 <p>This code chunk also computes the 5-minute interval that contains the maximum
-average number of steps taken. In addition, the following R statemnts estimates 
+average number of steps taken. In addition, the following R statements estimates 
 the corresponding 24-hour time using the following processing steps:<br/>
 1. <a href="http://stackoverflow.com/questions/8857287/how-to-add-subtract-time-from-a-posixlt-time-while-keeping-its-class-in-r">Computes the 24-hour time corresponding to the 5-minute interval that 
 contains maximum average number of steps</a><br/>
@@ -420,9 +420,10 @@ contains the maximum number steps is #104 which corresponds to
                             sum(complete.cases(activityData))
 </code></pre>
 
-<p>The total number of missing values is 2304, which is 
-computed as by subtracting the number of rows where all of the variables (i.e. 
-columns) are specified from the total number of rows.</p>
+<p>The total number of missing values calculated by the above code chunk is 
+2304, which is computed as by subtracting the number of 
+<a href="http://stackoverflow.com/questions/4862178/remove-rows-with-nas-in-data-">rows where all of the variables (i.e. columns) are specified</a> from the total 
+number of rows.</p>
 
 <pre><code class="r">dailyActivty$interval &lt;- as.factor(dailyActivty$interval)
 
@@ -449,17 +450,11 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
 
 <p><img src="data:image/png;base64,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" alt="plot of chunk imputeMissingValues"/> </p>
 
-<pre><code class="r">cat(sprintf(&quot;Mean total number of steps taken per day: %.1f&quot;, 
-            mean(totalNumberStepsPerDay$totalnumberofsteps)),
-    sprintf(&quot;Median total number of steps taken per day: %.1f&quot;, 
-            median(totalNumberStepsPerDay$totalnumberofsteps)),
-    fill=TRUE,
-    sep=&quot;\n&quot;)
-</code></pre>
+<pre><code class="r">filledIn.meanTotalNumberStepsPerDay &lt;- 
+    mean(totalNumberStepsPerDay$totalnumberofsteps)
 
-<pre><code>## Mean total number of steps taken per day: 10765.6
-## 
-## Median total number of steps taken per day: 10762.0
+filledIn.medianTotalNumberStepsPerDay &lt;- 
+    median(totalNumberStepsPerDay$totalnumberofsteps)
 </code></pre>
 
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
