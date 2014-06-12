@@ -219,7 +219,7 @@ maxIntervalTime$min <- maxIntervalTime$min + maxInterval*5
 maxIntervalTime <- strftime(maxIntervalTime,"%H:%M (24 hour)")
 ```
 On average across all the days in the dataset, the five minute interval that 
-contains the maximum number steps is #104 which corresponds to   
+contains the maximum number steps is #104 which corresponds to 
 08:40 (24 hour).
 ## Imputing missing values
 
