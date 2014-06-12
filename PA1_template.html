@@ -323,7 +323,10 @@ decisions. For example,the name that contains the total number of steps per
 <p>The following code chunk illustrates the <a href="http://docs.ggplot2.org/current/">ggplot2</a> commands that I used to 
 generate a histogram of the total number of steps taken per day. In addition,
 the coloring of my histogram plot is based on an example on page 119 of the 
-<a href="http://shop.oreilly.com/product/0636920023135.do">R Graphics Cookbook</a> written by Winston Chang.</p>
+<a href="http://shop.oreilly.com/product/0636920023135.do">R Graphics Cookbook</a> written by Winston Chang. An important point 
+regarding generating plots in an R Markdown file is that <a href="http://jeromyanglim.blogspot.com/2012/05/getting-started-with-r-markdown-knitr.html">knitr automatically 
+saves them to a <em>figure</em> sub-folder</a> of the current working directory with the 
+file prefix set by the <a href="http://yihui.name/knitr/options">code chunk name</a>.</p>
 
 <pre><code class="r">ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
     geom_histogram(binwidth=1000,fill=&quot;white&quot;,colour=&quot;black&quot;) + 

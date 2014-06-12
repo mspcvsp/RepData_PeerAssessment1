@@ -133,7 +133,10 @@ decisions. For example,the name that contains the total number of steps per
 The following code chunk illustrates the [ggplot2][10] commands that I used to 
 generate a histogram of the total number of steps taken per day. In addition,
 the coloring of my histogram plot is based on an example on page 119 of the 
-[R Graphics Cookbook][11] written by Winston Chang.
+[R Graphics Cookbook][11] written by Winston Chang. An important point 
+regarding generating plots in an R Markdown file is that [knitr automatically 
+saves them to a *figure* sub-folder][12] of the current working directory with the 
+file prefix set by the [code chunk name][13].
 
 ```r
 ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
@@ -301,3 +304,5 @@ frame
 [9]: http://stackoverflow.com/questions/6407239/how-to-change-the-datatable-column-name
 [10]: http://docs.ggplot2.org/current/
 [11]: http://shop.oreilly.com/product/0636920023135.do
+[12]: http://jeromyanglim.blogspot.com/2012/05/getting-started-with-r-markdown-knitr.html
+[13]: http://yihui.name/knitr/options
