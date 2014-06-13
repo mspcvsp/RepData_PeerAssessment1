@@ -272,7 +272,7 @@ slightly reduces both the mean and median total number of steps taken per day.
 The purpose of the first statement contained in the following code chunk (i.e.
 *depthtrigger* assignment) is to disable [printing of a data column 
 assignment][16]. The second operation performed adds a new column to the 
-activityData data.table that specifies the weekeday of the data variable 
+activityData data.table that specifies the weekday of the data variable 
 using the R [*weekdays()* function.][17] Next, I initialize a character vector
 that contains weekdays and set the corresponding activityData data.frame weekday 
 variable observation to "weekday." Once this operation is complete, this R
@@ -283,7 +283,7 @@ the *as.factor()* function][18] to the activityData weekday variable.
 
 This R software also transforms the interval variable to a numeric variable 
 prior to [computing the average number of steps taken in a 5-minute interval 
-conditioned on the weekeday variable][19]. The output of this aggregation 
+conditioned on the weekday variable][19]. The output of this aggregation 
 operation is then transformed to a data.frame prior to initializing the names
 of its columns. The reason why this processing step is required is that the
 name of the column that contains the average number of steps taken in a 
