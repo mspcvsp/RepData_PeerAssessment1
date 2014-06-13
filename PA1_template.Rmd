@@ -1,26 +1,26 @@
 # Reproducible Research: Peer Assessment 1
-The objective of this assignment is to evaluate data anonymously collected from 
-a personal activity monitoring device. This data contains samples measured at 
-five minute intervals during the months of October and November 2012. In 
-addition, the [Peer Assessment assignment #1 description][1] includes the 
-following definition of the variables contained in this data set:
+The objective of this assignment is to evaluate measurements anonymously 
+collected from a personal activity monitoring device. This data contains 
+attributes sampled at five minute intervals during the months of October and 
+November 2012. In addition, the [Peer Assessment assignment #1 description][1] 
+includes the following definition of the variables contained in this data set:
 * steps: Number of steps an individual takes during a five minute interval  
 * date: "The date on which the measurement was taken in YYYY-MM-DD format"  
 * interval: "Identifier for the 5-minute interval in which [the] measurement was
 taken"
 
-The objective of the following code chunk is to setup the R language 
-environment by performing four operations. First, this code chunk defining
-a character vector (i.e. required.packages) that defines the required packages. 
-The second operation performed by this R software is initializing a character 
-vector (i.e. new.packages) based on a [comparison of required packages with the 
-currently installed packages][2]. Third, this code chunk installs the required
-packages by passing the new.packages character vector to the install.packages 
-function. The fourth operation performed by this R code chunk is loading the 
-following required packages:
-* data.table  
-* ggplot2  
-* lubridate  
+The purpose of the following code chunk is to setup the R language 
+environment by performing four operations. First, this section of R software 
+initializes a character vector (i.e. *required.packages*) that defines the 
+required packages. The second operation performed by this code chunk is 
+setting a character vector (i.e. *new.packages*) based on a [comparison of 
+required packages with the currently installed packages][2]. Third, this section
+of code installs the required packages by passing the *new.packages* character 
+vector to the *install.packages()* function. The fourth operation performed by 
+these statements is loading the following required packages:
+* *data.table*  
+* *ggplot2*  
+* *lubridate*  
 ```{r setupEnvironment, message=FALSE}
 
 # Verify required packages are installed
@@ -43,15 +43,16 @@ library(lubridate)
 ```
 ## Loading and preprocessing the data
 The template [Github repository][1] for this assignment includes a compressed 
-file (i.e activity.zip) that contains the personal activity monitoring data.
+file (i.e *activity.zip*) that contains the personal activity monitoring data.
 Therefore, the first step performed by the following code chunk is to determine
 whether or not a "Data" directory has been created. If not, the R software 
-contained in this if statement creates the "Data" directory and [extracts the
-data from activity.zip][3] Next, the activity data comma separated value file
-is read from disk with the [header option set to TRUE and the stringsAsFactors 
-option set to false][4]. The third operation performed by this R code chunk is 
-transforming the character date variable in a POSIXct class using the *ymd* 
-(i.e, "year","month","day") function from the [lubridate][5] R package.
+contained in the following if statement creates the "Data" directory and 
+[extracts the contents of activity.zip][3] Next, this R software reads the
+activity data comma separated value file (i.e. activity.csv) from disk with the 
+[header option set to TRUE and the stringsAsFactors option set to false][4]. 
+The third operation performed by this R code chunk is transforming the character 
+date variable in a POSIXct class using the *ymd* (i.e, "year","month","day") 
+function from the [lubridate][5] R package.
 ```{r loadAndCleanDataPart1}
 if (!file.exists("./Data")) {
     dir.create("./Data")    
@@ -64,8 +65,8 @@ activityData <- read.csv("./Data/activity.csv",
 
 activityData$date <- ymd(activityData$date)
 ```
-During exploratory data analysis I noticed that the 5 minute intervals did not 
-correspond to the number of 5 minute intervals in a 24-hour period.  
+During exploratory data analysis I noticed that the 5-minute intervals did not 
+correspond to the number of 5-minute intervals in a 24-hour period.  
 ```{r loadAndCleanDataPart2}
 numberOfFiveMinuteIntervals <- 12 * 24
 
@@ -74,7 +75,7 @@ minOriginalIntervals <- min(originalIntervals)
 maxOriginalIntervals <- max(originalIntervals)
 ```
 For example, there are numberOfFiveMinuteIntervals = 
-`r numberOfFiveMinuteIntervals` 5 minute intervals in a day. However, the 
+`r numberOfFiveMinuteIntervals` 5-minute intervals in a day. However, the 
 original 5-minute intervals range from [minOriginalIntervals,
 maxOriginalIntervals]: [`r minOriginalIntervals`,`r maxOriginalIntervals`]. 
 Therefore, the purpose of the following code chunk is to:  
@@ -92,14 +93,15 @@ levels(activityData$interval) <- seq(1,length(originalIntervals))
 activityData <- data.table(activityData)
 ```
 ## What is mean total number of steps taken per day?
-An advantage of transforming the activityData variable from a data.frame
-to a data.table is that this data type was designed to work with large 
-datasets. For example, the first statement in the 
+An benefit provided by transforming the activityData variable from a 
+*data.frame* to a *data.table* is that this data type was designed to work with 
+large datasets. For example, the first statement in the 
 *computeTotalNumberStepsPerDay()* function defined in the following code chunk 
 computes the total number of steps per day using data.table's [aggregation 
-functionality][7]. In addition, this statements excludes observations that
-contains missing values (i.e. NA) using the [complete.cases][8] function. This
-statement also transforms the output of this aggregation back into a data.frame.
+functionality][7]. In addition, this function excludes observations that
+contain missing values (i.e. NA) using the [complete.cases][8] function. This
+R code chunk also transforms the output of the data.table aggregation back to
+a data.frame.
 ```{r totalNumberOfStepsPart1, fig.height=4, fig.width=7, message=FALSE}
 computeTotalNumberStepsPerDay <- function(activityData) {
     totalNumberStepsPerDay <- 
@@ -129,7 +131,7 @@ decisions. For example,the name that contains the total number of steps per
 The following code chunk illustrates the [ggplot2][10] commands that I used to 
 generate a histogram of the total number of steps taken per day. In addition,
 the coloring of my histogram plot is based on an example on page 119 of the 
-[R Graphics Cookbook][11] written by Winston Chang. An important point 
+[R Graphics Cookbook written by Winston Chang][11]. An important point 
 regarding generating plots in an R Markdown file is that [knitr automatically 
 saves them to a *figure* sub-folder][12] of the current working directory with 
 the file prefix set by the [code chunk name][13].
@@ -150,30 +152,30 @@ total number of steps taken per day:
 * medianTotalNumberOfStepsPerDay: `r medianTotalNumberOfStepsPerDay`
 
 ## What is the average daily activity pattern?
-The first statement in this code chunk estimates the daily activity using
-the same approach that I previously followed to compute the total number of
-steps taken per day. For example, I exclude data frame rows (i.e. observations)
-that contain missing data using the [complete.cases function][8]. Next, I apply
-the [data.frame's aggregation functionality][7] to compute the average number
-of steps taken per day. Finally, this R code statement converts the resulting
-data.table to a data.table. The second line of R code in this code chunk 
-converts the *interval* column of the dailyActivity data frame from a factor
-to a numeric variable. This processing step is required in order to plot the 
-average number of steps taken per 5-minute interval.
+The first statement in the following code chunk estimates the daily activity 
+using the same approach that I previously followed to compute the total number 
+of steps taken per day. For example, I exclude data frame rows (i.e. 
+observations) that contain missing data using the [complete.cases function][8]. 
+Next, I apply [data.frame's aggregation functionality][7] to compute the average 
+number of steps taken per day. Finally, this R code statement converts the 
+resulting data.table to a data.frame. The second line of R code in this code 
+chunk converts the *interval* column of the dailyActivity data frame from a 
+factor to a numeric variable. This processing step is required in order to plot 
+the average number of steps taken per 5-minute interval.
 
-Next, third R code statements contained in this code chunk convert sets the 
-column names of the dailyActivity data.frame. It is important to include this
-operation because the data.table aggregation output column is named *V1*. Once
-the formatting of the dailyAcitivity data.frame is complete, I plot the 
-estimated average number of steps per 5-minute interval. The technical 
-reference that I used to generate this plot is the [R Graphics Cookbook written
-by Winston Chang][11].
+The third R code statement contained in this code chunk sets the column names 
+of the dailyActivity data.frame. It is important to include this operation 
+because the data.table aggregation output column is named *V1*. Next, I plot 
+the estimated average number of steps taken per 5-minute interval. The technical 
+reference that I referred to in order to generate this plot is the [R Graphics 
+Cookbook written by Winston Chang][11].
 
-This code chunk also computes the 5-minute interval that contains the maximum
-average number of steps taken. In addition, the following R statements estimates 
-the corresponding 24-hour time using the following processing steps:  
+This code chunk also determines the 5-minute interval that contains the maximum
+average number of steps taken. In addition, the R statements at the end of this
+code section estimate the corresponding 24-hour time using the following 
+processing steps:  
 1. [Computes the 24-hour time corresponding to the 5-minute interval that 
-contains maximum average number of steps][14]  
+contains maximum average number of steps taken][14]  
 2. [Formats the resultant time using the *srtftime()* function.][15]
 ```{r dailyActivity, fig.height=4, fig.width=7, message=FALSE}
 dailyActivty <- as.data.frame(activityData[complete.cases(activityData),
@@ -205,8 +207,8 @@ maxIntervalTime$min <- maxIntervalTime$min + maxInterval*5
 maxIntervalTime <- strftime(maxIntervalTime,"%H:%M (24 hour)")
 ```
 On average across all the days in the dataset, the five minute interval that 
-contains the maximum number steps is #`r maxInterval` which corresponds to 
-`r maxIntervalTime`.
+contains the maximum number of steps taken is maxInterval=`r maxInterval` which 
+corresponds to maxIntervalTime=`r maxIntervalTime`.
 ## Imputing missing values
 ```{r computeNumberMissingValues}
 totalNumberMissingValues <- nrow(activityData) - 
@@ -221,16 +223,17 @@ The following code chunk illustrates that my strategy for filling in missing
 values is to:  
 1. Determine the rows (i.e. *intervalIndex*) that correspond to the current
 5-minute interval (i.e *n*)  
-2. Compute the rows corresponding to the current 5-minute interval where the 
-number of steps taken is missing  
+2. Based on the output of step #1, compute the rows where the number of steps 
+taken is missing  
 3. Fill in the missing steps taken with the average number of steps taken for 
-the current 5-minute interval.
+the current 5-minute interval.  
 
 Once the missing values are filled in, the next operation performed by this 
 section of R software is computing the total number of steps taken per day using
 the previously defined *computeTotalNumberStepsPerDay()* function. Finally, I 
-display the total number of steps by following the same approach applied to the
-total number of steps per day computed from data that contained missing values.
+display the total number of steps taken by following the same approach applied 
+to the total number of steps per day computed from data that contained missing 
+values.
 ```{r imputeMissingValues, fig.height=4, fig.width=7, message=FALSE}
 dailyActivty$interval <- as.factor(dailyActivty$interval)
 
@@ -270,29 +273,30 @@ in a 5-minute value with the corresponding average number of steps taken
 slightly reduces both the mean and median total number of steps taken per day.
 ## Are there differences in activity patterns between weekdays and weekends?
 The purpose of the first statement contained in the following code chunk (i.e.
-*depthtrigger* assignment) is to disable [printing of a data column 
+*depthtrigger* assignment) is to disable [printing of a data.table column 
 assignment][16]. The second operation performed adds a new column to the 
-activityData data.table that specifies the weekday of the data variable 
+activityData data.table that specifies the weekday of the date variable 
 using the R [*weekdays()* function.][17] Next, I initialize a character vector
-that contains weekdays and set the corresponding activityData data.frame weekday 
-variable observation to "weekday." Once this operation is complete, this R
-software performs a similar operation to set the weekday variable observations 
-corresponding to a weekend day to "weekend." After these processing steps are
-complete, the following R code chunk adjusts the factor levels by [applying
-the *as.factor()* function][18] to the activityData weekday variable.
+that contains weekday names and set the corresponding activityData *weekday* 
+variable observations to "weekday." Once this operation is complete, this R 
+software performs a similar operation to set the *weekday* variable observations 
+corresponding to a weekend day to "weekend." After these processing steps are 
+complete, the following R code chunk adjusts the *weekday* factor variable 
+levels by [applying the *as.factor()* function][18].
 
 This R software also transforms the interval variable to a numeric variable 
 prior to [computing the average number of steps taken in a 5-minute interval 
-conditioned on the weekday variable][19]. The output of this aggregation 
+conditioned on the *weekday* variable][19]. The output of this aggregation 
 operation is then transformed to a data.frame prior to initializing the names
-of its columns. The reason why this processing step is required is that the
-name of the column that contains the average number of steps taken in a 
-5-minute (conditioned on the weekday variable), is set to "V1". Finally, I 
-generate a plot that illustrates the average number of steps taken in 5-minute 
-intervals for both weekdays and the weekend, based on [an example in the R 
-Graphics Cookbook by Winston Chang][11]. My interpretation of this plot
-is that it matches the expected result that a person's movement would be more
-uniform during the weekend (if they are sitting at a desk during workdays.)
+of its columns. This processing step is required because the name of the 
+column that contains the average number of steps taken in a 5-minute interval
+(conditioned on the *weekday* variable) is set to "V1". Finally, I generate a 
+plot that illustrates the average number of steps taken in 5-minute intervals 
+for both weekdays and the weekend, based on [an example in the R Graphics 
+Cookbook by Winston Chang][11]. My interpretation of this plot is that it 
+matches the expected result that a person's movement is more uniform during the 
+weekend (based on an assumption that they are sitting at a desk during 
+workdays).
 ```{r activityPatternDifferences, fig.height=6, fig.width=7, message=FALSE, }
 assign("depthtrigger", 60, data.table:::.global)
 activityData[,daytype:=weekdays(date)]
