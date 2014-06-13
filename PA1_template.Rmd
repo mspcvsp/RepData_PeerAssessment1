@@ -269,7 +269,30 @@ Therefore, this result suggests that setting the missing number of steps taken
 in a 5-minute value with the corresponding average number of steps taken
 slightly reduces both the mean and median total number of steps taken per day.
 ## Are there differences in activity patterns between weekdays and weekends?
+The purpose of the first statement contained in the following code chunk (i.e.
+*depthtrigger* assignment) is to disable [printing of a data column 
+assignment][16]. The second operation performed adds a new column to the 
+activityData data.table that specifies the weekeday of the data variable 
+using the R [*weekdays()* function.][17] Next, I initialize a character vector
+that contains weekdays and set the corresponding activityData data.frame weekday 
+variable observation to "weekday." Once this operation is complete, this R
+software performs a similar operation to set the weekday variable observations 
+corresponding to a weekend day to "weekend." After these processing steps are
+complete, the following R code chunk adjusts the factor levels by [applying
+the *as.factor()* function][18] to the activityData weekday variable.
 
+This R software also transforms the interval variable to a numeric variable 
+prior to [computing the average number of steps taken in a 5-minute interval 
+conditioned on the weekeday variable][19]. The output of this aggregation 
+operation is then transformed to a data.frame prior to initializing the names
+of its columns. The reason why this processing step is required is that the
+name of the column that contains the average number of steps taken in a 
+5-minute (conditioned on the weekday variable), is set to "V1". Finally, I 
+generate a plot that illustrates the average number of steps taken in 5-minute 
+intervals for both weekdays and the weekend, based on [an example in the R 
+Graphics Cookbook by winston Chang][11]. My interpretation of this plot
+is that it matches the expected result that a person's movement would be more
+uniform during the weekend (if they are sitting at a desk during workdays.)
 ```{r activityPatternDifferences, fig.height=4, message=FALSE, }
 assign("depthtrigger", 60, data.table:::.global)
 activityData[,daytype:=weekdays(date)]
@@ -295,7 +318,9 @@ activityData$daytype <- as.factor(activityData$daytype)
 
 activityData$interval <- as.numeric(activityData$interval)
 
-activityPattern <- as.data.frame(activityData[,mean(steps),by=list(daytype,interval)])
+activityPattern <- as.data.frame(activityData[,
+                                              mean(steps),
+                                              by=list(daytype,interval)])
 
 colnames(activityPattern) <- c("daytype","interval","avgnumberofsteps")
 
@@ -313,8 +338,7 @@ ggplot(activityPattern,aes(x=interval,y=avgnumberofsteps)) +
 [5]: http://www.jstatsoft.org/v40/i03/paper
 [6]: http://www.londonr.org/LondonR-20090331/data.table.LondonR.pdf
 [7]: http://datatable.r-forge.r-project.org/
-[8]: http://stackoverflow.com/questions/4862178/remove-rows-with-nas-in-data-
-frame
+[8]: http://stackoverflow.com/questions/4862178/remove-rows-with-nas-in-data-frame
 [9]: http://stackoverflow.com/questions/6407239/how-to-change-the-datatable-column-name
 [10]: http://docs.ggplot2.org/current/
 [11]: http://shop.oreilly.com/product/0636920023135.do
@@ -322,3 +346,7 @@ frame
 [13]: http://yihui.name/knitr/options
 [14]: http://stackoverflow.com/questions/8857287/how-to-add-subtract-time-from-a-posixlt-time-while-keeping-its-class-in-r
 [15]: http://www.r-bloggers.com/how-to-calculate-with-dates-and-hours-in-r/
+[16]: http://stackoverflow.com/questions/15267018/knitr-gets-tricked-by-data-table-assignment
+[17]: http://www.stat.berkeley.edu/classes/s133/dates.html
+[18]: http://stackoverflow.com/questions/1195826/dropping-factor-levels-in-a-subsetted-data-frame-in-r
+[19]: http://rprogramming.net/aggregate-data-in-r-using-data-table/
