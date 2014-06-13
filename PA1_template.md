@@ -147,7 +147,7 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
 ![plot of chunk totalNumberOfStepsPart2](figure/totalNumberOfStepsPart2.png) 
 
 ```r
-meanTotalNumberStepsPerDay <- 
+meanTotalNumberOfStepsPerDay <- 
     sprintf('%.2f',mean(totalNumberStepsPerDay$totalnumberofsteps))
 
 medianTotalNumberOfStepsPerDay <- 
@@ -155,7 +155,7 @@ medianTotalNumberOfStepsPerDay <-
 ```
 The above code chunk also computes the following summary statistics for the 
 total number of steps taken per day:
-* meanTotalNumberStepsPerDay: 10766.19
+* meanTotalNumberOfStepsPerDay: 10766.19
 * medianTotalNumberOfStepsPerDay: 10765
 
 ## What is the average daily activity pattern?
@@ -228,10 +228,24 @@ totalNumberMissingValues <- nrow(activityData) -
                             sum(complete.cases(activityData))
 ```
 The total number of missing values calculated by the above code chunk is 
-2304, which is computed as by subtracting the number of 
-[rows where all of the variables (i.e. columns) are specified][8] from the total 
-number of rows.
+totalNumberMissingValues = 2304, which is computed by 
+subtracting the number of [rows where all of the variables (i.e. columns) are 
+specified][8] from the total number of rows.
 
+The following code chunk illustrates that my strategy for filling in missing 
+values is to:  
+1. Determine the rows (i.e. *intervalIndex*) that correspond to the current
+5-minute interval (i.e *n*)  
+2. Compute the rows corresponding to the current 5-minute interval where the 
+number of steps taken is missing  
+3. Fill in the missing steps taken with the average number of steps taken for 
+the current 5-minute interval.
+
+Once the missing values are filled in, the next operation performed by this 
+section of R software is computing the total number of steps taken per day using
+the previously defined *computeTotalNumberStepsPerDay()* function. Finally, I 
+display the total number of steps by following the same approach applied to the
+total number of steps per day computed from data that contained missing values.
 
 ```r
 dailyActivty$interval <- as.factor(dailyActivty$interval)
@@ -260,13 +274,20 @@ ggplot(totalNumberStepsPerDay, aes(x=totalnumberofsteps)) +
 ![plot of chunk imputeMissingValues](figure/imputeMissingValues.png) 
 
 ```r
-filledIn.meanTotalNumberStepsPerDay <- 
-    mean(totalNumberStepsPerDay$totalnumberofsteps)
+filledIn.meanTotalNumberOfStepsPerDay <- 
+    sprintf("%.2f",mean(totalNumberStepsPerDay$totalnumberofsteps))
 
 filledIn.medianTotalNumberStepsPerDay <- 
     median(totalNumberStepsPerDay$totalnumberofsteps)
 ```
-
+After the missing values are filled in, the mean total number of steps taken
+per day changes from 10766.19 to 
+10765.64. In addition, the median total number 
+of steps taken per day is 10762 compared
+to the previously computed value of 10765. 
+Therefore, this result suggests that setting the missing number of steps taken 
+in a 5-minute value with the corresponding average number of steps taken
+slightly reduces both the mean and median total number of steps taken per day.
 ## Are there differences in activity patterns between weekdays and weekends?
 
 
