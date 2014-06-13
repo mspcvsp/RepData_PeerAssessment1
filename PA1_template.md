@@ -310,7 +310,7 @@ name of the column that contains the average number of steps taken in a
 5-minute (conditioned on the weekday variable), is set to "V1". Finally, I 
 generate a plot that illustrates the average number of steps taken in 5-minute 
 intervals for both weekdays and the weekend, based on [an example in the R 
-Graphics Cookbook by winston Chang][11]. My interpretation of this plot
+Graphics Cookbook by Winston Chang][11]. My interpretation of this plot
 is that it matches the expected result that a person's movement would be more
 uniform during the weekend (if they are sitting at a desk during workdays.)
 
